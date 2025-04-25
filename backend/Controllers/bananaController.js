@@ -2,40 +2,50 @@ const db = require('../databaseConfig');
 
 exports.getSeasonalData = async (req, res) => {
     try {
-        const categories = await db.query(
-            `
-                SELECT DISTINCT SEASON FROM BANANAS
-            `
-        );
+        const results = await db.query(`
+            SELECT 
+                SEASON,
+                PROPORTION
+            FROM BANANAS
+        `);
 
-        const formattedArr = categories.rows.map(async (row) => {
-            const vector = await db.query(
-                `
-                    SELECT PROPORTION FROM BANANAS
-                    WHERE SEASON = '${row.season}'
-                `
-            );
+        res.status(200).json(results.rows);
 
-            const proportions = vector.rows.map(obj => {
-                return parseFloat(obj.proportion);
-            });
+        //For ApexChart data
+        // const categories = await db.query(
+        //     `
+        //         SELECT DISTINCT SEASON FROM BANANAS
+        //     `
+        // );
 
-            const group = {
-                x: row.season,
-                y: proportions
-            }
+        // const formattedArr = categories.rows.map(async (row) => {
+        //     const vector = await db.query(
+        //         `
+        //             SELECT PROPORTION FROM BANANAS
+        //             WHERE SEASON = '${row.season}'
+        //         `
+        //     );
 
-            return group;
-        });
+        //     const proportions = vector.rows.map(obj => {
+        //         return parseFloat(obj.proportion);
+        //     });
 
-        Promise.all(formattedArr)
-        .then(finals => {
-            res.status(200).json(finals);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
+        //     const group = {
+        //         x: row.season,
+        //         y: proportions
+        //     }
+
+        //     return group;
+        // });
+
+        // Promise.all(formattedArr)
+        // .then(finals => {
+        //     res.status(200).json(finals);
+        // })
+        // .catch(err => {
+        //     console.log(err);
+        //     res.status(500).json(err);
+        // });
         
     } catch (err) {
         console.log(err);

@@ -5,7 +5,7 @@ import {
   getHistogram,
   getMax
 } from '../API/RAPIs';
-import BoxPlot from './Components/BoxPlot';
+// import BoxPlot from './Components/BoxPlot';
 
 function App() {
   const [seasonData, setSeasonData] = useState([]);
@@ -58,9 +58,9 @@ function App() {
         type='number'
         onChange={e => getMaxAPI(e)}
       />
-      <BoxPlot
+      {/* <BoxPlot
         chartData={seasonData}
-      />
+      /> */}
     </>
   )
 }
