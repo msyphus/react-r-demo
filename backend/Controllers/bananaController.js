@@ -52,3 +52,35 @@ exports.getSeasonalData = async (req, res) => {
         res.sendStatus(500).json(err);
     }
 }
+
+exports.getBananaTypes = async (req, res) => {
+    try {
+        const types = await db.query(`
+            SELECT
+                BANANA_TYPE,
+                PCT_POPULATION
+            FROM BANANA_TYPES
+        `);
+        
+        let pcts = [];
+        let categories = [];
+
+        types.rows.map(e => {
+            pcts.push(parseFloat(e.pct_population));
+            categories.push(e.banana_type);
+        })
+
+        const result = [
+            {
+                values: pcts,
+                labels: categories,
+                type: 'pie'
+            }
+        ]
+
+        res.status(200).json(result);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+}

@@ -1,27 +1,32 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import { getSeasonalData } from '../API/bananasAPIs';
+import { 
+  getSeasonalData,
+  getBananaTypes
+} from '../API/bananasAPIs';
 import {
   getHistogram,
   getMax
 } from '../API/RAPIs';
 // import BoxPlot from './Components/BoxPlot';
+import PieChart from './Components/PieChart';
 
 function App() {
-  const [seasonData, setSeasonData] = useState([]);
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const peels = await getSeasonalData();
-      setSeasonData(peels.data);
+      // const bananas = await getSeasonalData();
+      const bananas = await getBananaTypes();
+      setChartData(bananas.data);
     }
 
     fetchData();
   }, []);
 
   useEffect(() => {
-    console.log(seasonData);
-  }, [seasonData]);
+    console.log(chartData);
+  }, [chartData]);
 
   const getHistAPI = async(e) => {
     try {
@@ -59,8 +64,11 @@ function App() {
         onChange={e => getMaxAPI(e)}
       />
       {/* <BoxPlot
-        chartData={seasonData}
+        chartData={chartData}
       /> */}
+      <PieChart
+        chartData={chartData}
+      />
     </>
   )
 }
