@@ -12,11 +12,15 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       const peels = await getSeasonalData();
-      console.log(peels);
+      setSeasonData(peels.data);
     }
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log(seasonData);
+  }, [seasonData]);
 
   const getHistAPI = async(e) => {
     try {
@@ -44,14 +48,14 @@ function App() {
       </div>
       <input
         type='number'
-        onMouseOut={e => getHistAPI(e)}
+        onChange={e => getHistAPI(e)}
       />
       <div>
         What is the biggest number?
       </div>
       <input
         type='number'
-        onMouseOut={e => getMaxAPI(e)}
+        onChange={e => getMaxAPI(e)}
       />
     </>
   )
