@@ -10,14 +10,15 @@ import {
 } from '../API/RAPIs';
 // import BoxPlot from './Components/BoxPlot';
 import PieChart from './Components/PieChart';
+import BoxPlotPlotly from './Components/BoxPlotPlotly';
 
 function App() {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      // const bananas = await getSeasonalData();
-      const bananas = await getBananaTypes();
+      const bananas = await getSeasonalData();
+      // const bananas = await getBananaTypes();
       setChartData(bananas.data);
     }
 
@@ -63,12 +64,15 @@ function App() {
         type='number'
         onChange={e => getMaxAPI(e)}
       />
+      <BoxPlotPlotly
+        chartData={chartData}
+      />
       {/* <BoxPlot
         chartData={chartData}
       /> */}
-      <PieChart
+      {/* <PieChart
         chartData={chartData}
-      />
+      /> */}
     </>
   )
 }
